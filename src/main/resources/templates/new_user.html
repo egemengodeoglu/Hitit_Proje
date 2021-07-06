@@ -17,19 +17,26 @@
   <form action="#" th:action="@{/newUser}" th:object="${userAndCar}"
         method="POST">
 
-    <input th:type="text" th:field="*{userName}"
+    <label for="user-name-label">User name:</label>
+    <input id="user-name-label" th:type="text" th:field="*{userName}"
            placeholder="User Name" class="form-control mb-4 col-4">
-    <input th:type="text" th:field="*{firstName}"
+    <label for="first-name-label">First name:</label>
+    <input id="first-name-label" th:type="text" th:field="*{firstName}"
            placeholder="First Name" class="form-control mb-4 col-4">
-    <input th:type="text" th:field="*{lastName}"
+    <label for="last-name-label">Last name:</label>
+    <input id="last-name-label" th:type="text" th:field="*{lastName}"
            placeholder="Last Name" class="form-control mb-4 col-4">
-    <input th:type="number" th:field="*{age}"
+    <label for="age-label">Age:</label>
+    <input id="age-label" th:type="number" th:field="*{age}"
            placeholder="Age" class="form-control mb-4 col-4">
-    <input th:type="text" th:field="*{carName}"
+    <label for="car-name-label">Car name:</label>
+    <input id="car-name-label" th:type="text" th:field="*{carName}"
            placeholder="Car Name" class="form-control mb-4 col-4">
-    <input th:type="text" th:field="*{carModel}"
+    <label for="car-model-label">Car model:</label>
+    <input id="car-model-label" th:type="text" th:field="*{carModel}"
            placeholder="Car Model" class="form-control mb-4 col-4">
-    <input th:type="number" th:field="*{carAge}"
+    <label for="car-age-label">Car age:</label>
+    <input id="car-age-label" th:type="number" th:field="*{carAge}"
            placeholder="Car Age" class="form-control mb-4 col-4">
 
     <button type="submit" class="btn btn-info col-2"> Save User</button>

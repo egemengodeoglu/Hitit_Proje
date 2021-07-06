@@ -14,14 +14,17 @@
   <hr>
   <h2>Save Car</h2>
 
-  <form action="#" th:action="@{/update/newCar}" th:object="${car}"
+  <form action="#" th:action="@{/update/newCar/{id}(id=${car.userId})}" th:object="${car}"
         method="POST">
-    <input type="text" th:value="*{userId}" th:field="*{userId}" hidden/>
-    <input th:type="text" th:field="*{carName}"
+    <input type="hidden" th:field="*{userId}"/>
+    <label for="car-name-label">Car name:</label>
+    <input id="car-name-label" th:type="text" th:field="*{carName}"
            placeholder="Car Name" class="form-control mb-4 col-4">
-    <input th:type="text" th:field="*{carModel}"
+    <label for="car-model-label">Car model:</label>
+    <input id="car-model-label" th:type="text" th:field="*{carModel}"
            placeholder="Car Model" class="form-control mb-4 col-4">
-    <input th:type="number" th:field="*{carAge}"
+    <label for="car-age-label">Car age:</label>
+    <input id="car-age-label" th:type="number" th:field="*{carAge}"
            placeholder="Car Age" class="form-control mb-4 col-4">
 
     <button type="submit" class="btn btn-info col-2"> Save User</button>

@@ -6,7 +6,6 @@ import com.hititproje.model.User;
 import com.hititproje.repository.UserRepository;
 import com.hititproje.model.UsersCar;
 import com.hititproje.repository.UsersCarRepository;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,9 @@ public class UsersCarServiceImpl implements UsersCarService{
     private final UserRepository userRepository;
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS) //SOR
-    public UsersCarViewDTO getUsersCarById(Long id) throws NotFoundException {
-        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException("Not Found Exception"));
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public UsersCarViewDTO getUsersCarById(Long id) {
+        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException("Car Not Found Exception"));
         return UsersCarViewDTO.of(usersCar);
     }
 
@@ -43,7 +42,7 @@ public class UsersCarServiceImpl implements UsersCarService{
     @Override
     @Transactional
     public UsersCarViewDTO updateCar(Long id, UsersCarCreateDTO usersCarUpdateDTO) {
-        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException("Not Found Exception"));
+        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException("Car Not Found Exception"));
         usersCar.setCarName(usersCarUpdateDTO.getCarName());
         usersCar.setCarModel(usersCarUpdateDTO.getCarModel());
         usersCar.setCarAge(usersCarUpdateDTO.getCarAge());
@@ -67,7 +66,7 @@ public class UsersCarServiceImpl implements UsersCarService{
     @Override
     @Transactional
     public void deleteCar(Long id) {
-        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException("Not Found Exception"));
+        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException("Car Not Found Exception"));
         usersCarRepository.deleteById(usersCar.getId());
     }
 

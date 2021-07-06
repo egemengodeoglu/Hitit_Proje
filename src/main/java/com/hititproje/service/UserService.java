@@ -20,4 +20,6 @@ public interface UserService {
 
     List<UsersCarViewDTO> getUsersCars(Long id);
 
+    //<button id="Dlt" onclick="deleteUser(`+{id}(id=${user.id}))+`)" class="btn btn-danger">Delete</button>
+
 }

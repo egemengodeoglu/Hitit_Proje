@@ -3,6 +3,24 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>USER MANAGEMENT SYSTEM</title>
+    <script type = "text/javascript"
+            src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+    </script>
+    <script>
+        function deleteUser(id){
+        console.log(id);
+            $.ajax({
+                url: 'http://localhost:8080/delete/'+id,
+                method: "GET",
+                success: function() {
+                    alert("The user has been deleted. Please refresh the page.");
+                },
+                error: function (error){
+                    alert(error);
+                }
+            })
+        }
+    </script>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -29,9 +47,8 @@
                 <td th:text="${user.age}"></td>
                 <td>
                     <a th:href="@{/update/{id}(id=${user.id})}" class="btn btn-primary">Update</a>
-                    <a th:href="@{/delete/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>
+                    <button th:attr="onclick='deleteUser(\'' + ${user.getId()}+  '\');'" class="btn btn-danger">Delete</button>
                 </td>
-
             </tr>
             </tbody>
         </table>

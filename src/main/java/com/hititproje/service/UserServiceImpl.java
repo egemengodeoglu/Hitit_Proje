@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService{
         if(optional.isPresent()){
             user = optional.get();
         }else{
-            throw new RuntimeException("User not found for id::"+id);
+            throw new RuntimeException("User not found for id:"+id);
         }
         return UserViewDTO.of(user);
     }
