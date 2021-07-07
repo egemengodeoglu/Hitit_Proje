@@ -8,11 +8,9 @@ import lombok.Setter;
 @Setter
 public class UserCreateDTO {
 
-    //Başka verilerle karşılaştırma unique, size gibi şeylerin ekleneceği yer
-
     @NotNull(message = "{hitit_proje.constraints.userName.NotNull.message}")
     @Size(min = 5, max = 20, message = "{hitit_proje.constraints.userName.Size.message}")
-    private String userName; //Unique eklenecek
+    private String userName;
 
     @NotNull(message = "{hitit_proje.constraints.firstName.NotNull.message}")
     @Size(min = 2, max = 25, message = "{hitit_proje.constraints.firstName.Size.message}")

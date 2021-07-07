@@ -3,13 +3,12 @@ package com.hititproje.controller;
 import com.hititproje.dto.*;
 import com.hititproje.service.UserService;
 import com.hititproje.service.UsersCarService;
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -18,7 +17,9 @@ import java.util.*;
 public class UserApi {
 
     String mainPage = "redirect:/";
-    //Must add error handling
+    String createUserPage = "new_user";
+    String createCarPage = "new_car";
+    String updateUserPage = "update_user";
 
     private final UserService userService;
     private final UsersCarService usersCarService;
@@ -34,11 +35,14 @@ public class UserApi {
     public String createUserViewPage(Model model){
         UserAndCarCreateDTO userAndCarCreateDTO = new UserAndCarCreateDTO();
         model.addAttribute("userAndCar", userAndCarCreateDTO);
-        return "new_user";
+        return createUserPage;
     }
 
     @PostMapping("/newUser")
-    public String createUser(@ModelAttribute("userAndCar") UserAndCarCreateDTO userAndCarCreateDTO){
+    public String createUser(@Valid @ModelAttribute("userAndCar") UserAndCarCreateDTO userAndCarCreateDTO , BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return createUserPage;
+        }
         userService.createUser(userAndCarCreateDTO);
         return mainPage;
     }
@@ -48,31 +52,35 @@ public class UserApi {
         UsersCarCreateDTO car = new UsersCarCreateDTO();
         car.setUserId(id);
         model.addAttribute("car", car);
-        return "new_car";
+        return createCarPage;
     }
 
     @PostMapping("/update/newCar/{id}")
-    public String createCar(@PathVariable("id") Long id, @ModelAttribute("car") UsersCarCreateDTO usersCarCreateDTO){
+    public String createCar(@PathVariable("id") Long id, @Valid @ModelAttribute("car") UsersCarCreateDTO usersCarCreateDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return createCarPage;
+        }
         usersCarCreateDTO.setUserId(id);
         usersCarService.createCar(usersCarCreateDTO);
         return mainPage;
     }
 
     @GetMapping("/update/{id}")
-    public String updateUserViewPage(@PathVariable("id") Long id, Model model) throws NotFoundException {
+    public String updateUserViewPage(@PathVariable("id") Long id, Model model){
         UserViewDTO user = userService.getUserById(id);
         List<UsersCarViewDTO> listCars = userService.getUsersCars(id);
-        UserUpdateDTO userUpdate = new UserUpdateDTO();
-        BeanUtils.copyProperties(user, userUpdate);
-        model.addAttribute("userUpdate", userUpdate);
+        model.addAttribute("userUpdate", user);
         model.addAttribute("listCars",listCars);
-        return "update_user";
+        return updateUserPage;
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable("id") Long id, @ModelAttribute("user") UserUpdateDTO userUpdateDTO){
-        userService.updateUser(id, userUpdateDTO);
-        return mainPage;
+    public String updateUser(@PathVariable("id") Long id, @Valid @ModelAttribute("userUpdate") UserUpdateDTO userUpdateDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return updateUserPage;
+        }
+            userService.updateUser(id, userUpdateDTO);
+            return mainPage;
     }
 
 
@@ -80,13 +88,6 @@ public class UserApi {
     public String deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);
         return mainPage;
-    }
-
-    //FOR CONTROL FROM DB
-    @GetMapping("{id}/cars")
-    public ResponseEntity<List<UsersCarViewDTO>> getUsersCars(@PathVariable("id") Long id) {
-        List<UsersCarViewDTO> cars = userService.getUsersCars(id);
-        return ResponseEntity.ok(cars);
     }
 
     @PostMapping("/update/delete/{id}")

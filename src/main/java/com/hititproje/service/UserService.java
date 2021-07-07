@@ -1,14 +1,13 @@
 package com.hititproje.service;
 
 import com.hititproje.dto.*;
-import javassist.NotFoundException;
 
 import java.util.List;
 
 
 public interface UserService {
 
-    UserViewDTO getUserById(Long id) throws NotFoundException;
+    UserViewDTO getUserById(Long id);
 
     List<UserViewDTO> getAllUsers();
 

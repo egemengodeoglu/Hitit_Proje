@@ -17,16 +17,19 @@
   <form action="#" th:action="@{/update/newCar/{id}(id=${car.userId})}" th:object="${car}"
         method="POST">
     <input type="hidden" th:field="*{userId}"/>
-    <label for="car-name-label">Car name:</label>
-    <input id="car-name-label" th:type="text" th:field="*{carName}"
-           placeholder="Car Name" class="form-control mb-4 col-4">
-    <label for="car-model-label">Car model:</label>
-    <input id="car-model-label" th:type="text" th:field="*{carModel}"
-           placeholder="Car Model" class="form-control mb-4 col-4">
-    <label for="car-age-label">Car age:</label>
-    <input id="car-age-label" th:type="number" th:field="*{carAge}"
-           placeholder="Car Age" class="form-control mb-4 col-4">
+    <div>
+      <td>Car name:</td>
+      <td><input type="text" th:field="*{carName}" required minlength="4" maxlength="30"/></td>
+      <div th:if="${#fields.hasErrors('carName')}" th:errors="*{carName}">Car Model Error</div>
 
+      <td>Car model:</td>
+      <td><input type="text" th:field="*{carModel}" required minlength="2" maxlength="25"/></td>
+      <div th:if="${#fields.hasErrors('carModel')}" th:errors="*{carModel}">Car Model Error</div>
+
+      <td>Car age:</td>
+      <td><input type="number" min="0" max="80" th:field="*{carAge}" /></td>
+      <div th:if="${#fields.hasErrors('carAge')}" th:errors="*{carAge}">Car Age Error</div>
+    </div>
     <button type="submit" class="btn btn-info col-2"> Save User</button>
   </form>
 

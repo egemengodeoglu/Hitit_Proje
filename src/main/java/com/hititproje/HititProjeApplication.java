@@ -26,7 +26,7 @@ public class HititProjeApplication {
 			user1.setLastName("Gödeoğlu");
 			user1.setAge(25);
 			User user2 = new User();
-			user2.setUserName("Mb35");
+			user2.setUserName("Mbt35");
 			user2.setFirstName("Miraç");
 			user2.setLastName("Buğse");
 			user2.setAge(18);

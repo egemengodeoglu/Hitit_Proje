@@ -20,11 +20,13 @@ public class UsersCarServiceImpl implements UsersCarService{
 
     private final UsersCarRepository usersCarRepository;
     private final UserRepository userRepository;
+    private static final String CARNOTFOUNDSTRING = "Car Not Found Exception";
+    private static final String USERNOTFOUNDSTRING = "User Not Found Exception";
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public UsersCarViewDTO getUsersCarById(Long id) {
-        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException("Car Not Found Exception"));
+        UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException(CARNOTFOUNDSTRING));
         return UsersCarViewDTO.of(usersCar);
     }
 
@@ -42,7 +44,7 @@ public class UsersCarServiceImpl implements UsersCarService{
     @Override
     @Transactional
     public UsersCarViewDTO updateCar(Long id, UsersCarCreateDTO usersCarUpdateDTO) {
-        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException("Car Not Found Exception"));
+        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException(CARNOTFOUNDSTRING));
         usersCar.setCarName(usersCarUpdateDTO.getCarName());
         usersCar.setCarModel(usersCarUpdateDTO.getCarModel());
         usersCar.setCarAge(usersCarUpdateDTO.getCarAge());
@@ -54,7 +56,7 @@ public class UsersCarServiceImpl implements UsersCarService{
 
     @Override
     public UsersCarViewDTO createCar(UsersCarCreateDTO usersCarCreateDTO) {
-        User user = userRepository.findById(usersCarCreateDTO.getUserId()).orElseThrow(() -> new com.hititproje.exception.NotFoundException("User Not Found Exception"));
+        User user = userRepository.findById(usersCarCreateDTO.getUserId()).orElseThrow(() -> new com.hititproje.exception.NotFoundException(USERNOTFOUNDSTRING));
         UsersCar usersCar = new UsersCar();
         BeanUtils.copyProperties(usersCarCreateDTO, usersCar);
         usersCar.setUser(user);
@@ -66,7 +68,7 @@ public class UsersCarServiceImpl implements UsersCarService{
     @Override
     @Transactional
     public void deleteCar(Long id) {
-        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException("Car Not Found Exception"));
+        final UsersCar usersCar = usersCarRepository.findById(id).orElseThrow(() -> new com.hititproje.exception.NotFoundException(CARNOTFOUNDSTRING));
         usersCarRepository.deleteById(usersCar.getId());
     }
 

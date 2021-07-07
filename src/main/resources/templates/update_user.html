@@ -16,18 +16,25 @@
 
   <form action="#" th:action="@{/update/{id}(id=${userUpdate.id})}" th:object="${userUpdate}"
         method="POST">
-    <label for="user-name-label">User name:</label>
-    <input id="user-name-label" th:type="text" th:field="*{userName}"
-           placeholder="User Name" class="form-control mb-4 col-4">
-    <label for="first-name-label">First name:</label>
-    <input id="first-name-label" th:type="text" th:field="*{firstName}"
-           placeholder="First Name" class="form-control mb-4 col-4">
-    <label for="last-name-label">Last name:</label>
-    <input id="last-name-label" th:type="text" th:field="*{lastName}"
-           placeholder="Last Name" class="form-control mb-4 col-4">
-    <label for="age-label">Age:</label>
-    <input id="age-label" th:type="number" th:field="*{age}"
-           placeholder="Age" class="form-control mb-4 col-4">
+    <div>
+      <td>User name:</td>
+      <td><input type="text" th:field="*{userName}" readonly/></td>
+    </div>
+    <div>
+      <td>First name:</td>
+      <td><input type="text" th:field="*{firstName}" required minlength="2" maxlength="25"/></td>
+      <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</div>
+    </div>
+    <div>
+      <td>Last name:</td>
+      <td><input type="text" th:field="*{lastName}" required minlength="2" maxlength="25"/></td>
+      <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</div>
+    </div>
+    <div>
+      <td>Age:</td>
+      <td><input type="number" min="18" max="80" th:field="*{age}" required /></td>
+      <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
+    </div>
 
     <button type="submit" class="btn btn-info col-2"> Update User</button>
   </form>

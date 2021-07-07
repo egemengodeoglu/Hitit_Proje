@@ -24,14 +24,12 @@ public class UserServiceImpl implements UserService{
     private final UsersCarService usersCarService;
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS) //SOR
+    @Transactional
     public UserViewDTO getUserById(Long id){
         Optional<User> optional = userRepository.findById(id);
         User user = null;
         if(optional.isPresent()){
             user = optional.get();
-        }else{
-            throw new RuntimeException("User not found for id:"+id);
         }
         return UserViewDTO.of(user);
     }
